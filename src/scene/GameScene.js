@@ -32,6 +32,7 @@ class GameScene extends Phaser.Scene {
         this.createBackground();
         this.createBird();
         this.createPipesGroup();
+        this.createColliders();
         this.initControls();
     }
 
@@ -50,10 +51,10 @@ class GameScene extends Phaser.Scene {
     createBird() {
         this.bird = this.physics.add.sprite(this.config.startPosition.x, this.config.startPosition.y, "bird").setOrigin(0, 0);
         this.bird.body.gravity.y = this.config.gravity;
+        this.bird.setCollideWorldBounds(true);
     }
 
     createPipesGroup() {
-        // create pipes
         this.pipes = this.physics.add.group();
         this.createPipes();
     }
@@ -69,11 +70,19 @@ class GameScene extends Phaser.Scene {
           this.positionPipes(...pipePair);
         }
         this.pipes.setVelocityX(-200);
-      }
+    }
+
+    createColliders() {
+        this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
+    }
 
     generatePipes() {
-        let pipeTop = this.pipes.create(-200, -200, 'pipe').setOrigin(0, 1);
-        let pipeBottom = this.pipes.create(-200, -200, 'pipe').setOrigin(0, 0);
+        let pipeTop = this.pipes.create(-200, -200, 'pipe')
+                            .setImmovable(true)
+                            .setOrigin(0, 1);
+        let pipeBottom = this.pipes.create(-200, -200, 'pipe')
+                            .setImmovable(true)
+                            .setOrigin(0, 0);
         return [pipeTop, pipeBottom];
     }
 
@@ -131,10 +140,24 @@ class GameScene extends Phaser.Scene {
     }
 
     checkGameStatus() {
-        if (this.bird.y > this.config.height || this.bird.y < 0) {
-            this.resetBirdPosition();
+        if (this.bird.getBounds().bottom >= this.config.height || this.bird.y <= 0) {
+            this.gameOver();
         }
     }
+
+    gameOver() {
+        this.physics.pause();
+        this.bird.setTint(0xff0000);
+
+        this.time.addEvent({
+            delay: 1000,
+            callback: () => {
+                this.scene.restart();
+            },
+            loop: false
+        });
+    }
+
 }
 
 export default GameScene;

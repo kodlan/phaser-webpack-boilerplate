@@ -10,7 +10,7 @@ const SCENE_CONFIG = {
   height: HEIGHT,
   startPosition: { x: WIDTH / 10, y: HEIGHT / 2 },
   velocity: 300,
-  gravity: 400
+  gravity: 600
 }
 
 const config = {
