@@ -16,33 +16,51 @@ class GameScene extends Phaser.Scene {
         this.pipes = null;
     }
 
+    /**
+     * Preload resources
+     */
     preload() {
         this.load.image('sky', 'assets/sky.png');
         this.load.image('bird', 'assets/bird.png');
         this.load.image('pipe', 'assets/pipe.png');
     }
 
+    /**
+     * Create resources
+     */
     create() {
-        this.add.image(0, 0, 'sky').setOrigin(0, 0);
+        this.createBackground();
+        this.createBird();
+        this.createPipesGroup();
+        this.initControls();
+    }
 
+    /**
+     * Handle screen updates
+     */
+    update() {
+        this.checkGameStatus();
+        this.recyclePipes();
+    }
+
+    createBackground() {
+        this.add.image(0, 0, 'sky').setOrigin(0, 0);
+    }
+
+    createBird() {
         this.bird = this.physics.add.sprite(this.config.startPosition.x, this.config.startPosition.y, "bird").setOrigin(0, 0);
         this.bird.body.gravity.y = this.config.gravity;
-       
+    }
+
+    createPipesGroup() {
         // create pipes
         this.pipes = this.physics.add.group();
         this.createPipes();
-        
-        // set input handlers
-        this.input.on('pointerdown', this.flap, this);
-        this.input.keyboard.on('keydown_SPACE', this.flap, this);
     }
 
-    update() {
-        if (this.bird.y > this.config.height || this.bird.y < 0) {
-            this.resetBirdPosition();
-        }
-        
-        this.recyclePipes();
+    initControls() {
+        this.input.on('pointerdown', this.flap, this);
+        this.input.keyboard.on('keydown_SPACE', this.flap, this);
     }
 
     createPipes() {
@@ -110,6 +128,12 @@ class GameScene extends Phaser.Scene {
                 }
             }
         })
+    }
+
+    checkGameStatus() {
+        if (this.bird.y > this.config.height || this.bird.y < 0) {
+            this.resetBirdPosition();
+        }
     }
 }
 
