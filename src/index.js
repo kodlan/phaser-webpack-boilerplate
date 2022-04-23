@@ -1,6 +1,8 @@
 
 import Phaser from "phaser";
 import GameScene from "./scene/GameScene";
+import PreloadScene from "./scene/PreloadScene";
+import MenuScene from "./scene/MenuScene";
 
 const WIDTH = 800;
 const HEIGHT = 600;
@@ -23,7 +25,7 @@ const config = {
       debug: true,
     }
   },
-  scene: [ new GameScene(SCENE_CONFIG) ]
+  scene: [ new PreloadScene(SCENE_CONFIG), new MenuScene(SCENE_CONFIG), new GameScene(SCENE_CONFIG),  ]
 };
 
 new Phaser.Game(config);
