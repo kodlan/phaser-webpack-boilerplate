@@ -14,6 +14,7 @@ class GameScene extends Phaser.Scene {
         this.config = config
         this.bird = null;
         this.pipes = null;
+        this.pauseButton = null;
 
         this.score = 0;
         this.scoreText = null;
@@ -27,6 +28,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('sky', 'assets/sky.png');
         this.load.image('bird', 'assets/bird.png');
         this.load.image('pipe', 'assets/pipe.png');
+        this.load.image('pause', 'assets/pause.png');
     }
 
     /**
@@ -38,6 +40,7 @@ class GameScene extends Phaser.Scene {
         this.createPipesGroup();
         this.createColliders();
         this.createScore();
+        this.createPause();
         this.initControls();
     }
 
@@ -87,6 +90,18 @@ class GameScene extends Phaser.Scene {
         
         const bestScore = localStorage.getItem("bestScore");
         this.bestScoreText = this.add.text(16, 50, `Best score ${bestScore || 0}`, { fontSize: '18px', fill: "#000" });
+    }
+
+    createPause() {
+        this.pauseButton = this.add.image(this.config.width - 10, this.config.height - 10, "pause")
+                .setInteractive()
+                .setScale(3)
+                .setOrigin(1, 1);
+
+        this.pauseButton.on("pointerdown", () => {
+            this.physics.pause();
+            this.scene.pause();
+        });
     }
 
     generatePipes() {
