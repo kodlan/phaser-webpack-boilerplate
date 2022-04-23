@@ -15,6 +15,10 @@ const SCENE_CONFIG = {
   gravity: 600
 }
 
+const Scenes = [ PreloadScene, MenuScene, GameScene ];
+const createScene = (Scene) => new Scene(SCENE_CONFIG);
+const initScenes = () => Scenes.map(createScene);
+
 const config = {
   type: Phaser.AUTO,  
   width: WIDTH,
@@ -25,7 +29,7 @@ const config = {
       debug: true,
     }
   },
-  scene: [ new PreloadScene(SCENE_CONFIG), new MenuScene(SCENE_CONFIG), new GameScene(SCENE_CONFIG),  ]
+  scene: initScenes()
 };
 
 new Phaser.Game(config);
