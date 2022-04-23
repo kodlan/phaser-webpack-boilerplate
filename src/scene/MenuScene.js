@@ -1,11 +1,9 @@
-import Phaser from "phaser";
+import BaseScene from "./BaseScene";
 
-class MenuScene extends Phaser.Scene {
+class MenuScene extends BaseScene {
 
     constructor(config) {
-        super("MenuScene");
-
-        this.config = config;
+        super("MenuScene", config);
     }
 
     /**
@@ -18,7 +16,7 @@ class MenuScene extends Phaser.Scene {
      * Create resources
      */
     create() {
-        this.add.image(0, 0, 'sky').setOrigin(0);
+        super.create();
         this.scene.start("GameScene");
     }
 

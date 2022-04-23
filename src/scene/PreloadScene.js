@@ -1,9 +1,9 @@
-import Phaser from "phaser";
+import BaseScene from "./BaseScene";
 
-class PreloadScene extends Phaser.Scene {
+class PreloadScene extends BaseScene {
 
     constructor(config) {
-        super("PreloadScene");
+        super("PreloadScene", config);
     }
 
     /**

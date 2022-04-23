@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import BaseScene from "./BaseScene";
 
 const PIPE_TO_RENDER = 4;
 const PIPE_VERTICAL_DISTANCE_RANGE = [150, 250];
@@ -6,12 +6,11 @@ const PIPE_VERTICAL_POSITION_RANGE = [20, 580];
 const PIPE_HORIZONTAL_DISTANCE = 400;
 const VELOCITY = 300;
 
-class GameScene extends Phaser.Scene {
+class GameScene extends BaseScene {
 
     constructor(config) {
-        super("GameScene");
+        super("GameScene", config);
 
-        this.config = config
         this.bird = null;
         this.pipes = null;
         this.pauseButton = null;
@@ -31,7 +30,7 @@ class GameScene extends Phaser.Scene {
      * Create resources
      */
     create() {
-        this.createBackground();
+        super.create();
         this.createBird();
         this.createPipesGroup();
         this.createColliders();
@@ -46,10 +45,6 @@ class GameScene extends Phaser.Scene {
     update() {
         this.checkGameStatus();
         this.recyclePipes();
-    }
-
-    createBackground() {
-        this.add.image(0, 0, 'sky').setOrigin(0, 0);
     }
 
     createBird() {
