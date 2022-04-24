@@ -4,6 +4,7 @@ import GameScene from "./scene/GameScene";
 import PreloadScene from "./scene/PreloadScene";
 import MenuScene from "./scene/MenuScene";
 import ScoreScene from "./scene/ScoreScene";
+import PauseScene from "./scene/PauseScene";
 
 const WIDTH = 800;
 const HEIGHT = 600;
@@ -16,7 +17,7 @@ const SCENE_CONFIG = {
   gravity: 600
 }
 
-const Scenes = [ PreloadScene, MenuScene, GameScene, ScoreScene ];
+const Scenes = [ PreloadScene, MenuScene, GameScene, ScoreScene, PauseScene ];
 
 const createScene = (Scene) => new Scene(SCENE_CONFIG);
 const initScenes = () => Scenes.map(createScene);

@@ -14,6 +14,7 @@ class GameScene extends BaseScene {
         this.bird = null;
         this.pipes = null;
         this.pauseButton = null;
+        this.isPaused = false;
 
         this.score = 0;
         this.scoreText = null;
@@ -37,6 +38,7 @@ class GameScene extends BaseScene {
         this.createScore();
         this.createPause();
         this.initControls();
+        this.initEvents();
     }
 
     /**
@@ -84,14 +86,17 @@ class GameScene extends BaseScene {
     }
 
     createPause() {
+        this.isPaused = false;
         this.pauseButton = this.add.image(this.config.width - 10, this.config.height - 10, "pause")
                 .setInteractive()
                 .setScale(3)
                 .setOrigin(1, 1);
 
         this.pauseButton.on("pointerdown", () => {
+            this.isPaused = true;
             this.physics.pause();
             this.scene.pause();
+            this.scene.launch("PauseScene");
         });
     }
 
@@ -141,7 +146,9 @@ class GameScene extends BaseScene {
     }
 
     flap() {
-        this.bird.body.velocity.y = -VELOCITY;
+        if (!this.isPaused) {
+            this.bird.body.velocity.y = -VELOCITY;
+        }
     }
       
     recyclePipes() {
@@ -197,6 +204,34 @@ class GameScene extends BaseScene {
         }
     }
 
+    initEvents() {
+        if (this.pauseEvent) {
+            return;
+        }
+
+        this.pauseEvent = this.events.on("resume", () => {
+            this.initTime = 3;
+            this.countDownText = this.add.text(...this.screenCenter, 'Fly in: ' + this.initTime, this.fontOptions).setOrigin(0.5);
+            this.timedEvent = this.time.addEvent({
+                delay: 1000,
+                callback: this.countdown,
+                callbackScope: this,
+                loop: true
+            })
+        });
+    }
+
+    countdown() {
+        this.initTime --;
+        this.countDownText.setText('Fly in: ' + this.initTime);
+        
+        if (this.initTime <= 0) {
+            this.isPaused = false;
+            this.countDownText.setText('');
+            this.physics.resume();
+            this.timedEvent.remove();
+        }
+    }
 }
 
 export default GameScene;
