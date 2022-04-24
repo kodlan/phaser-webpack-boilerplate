@@ -3,6 +3,7 @@ import Phaser from "phaser";
 import GameScene from "./scene/GameScene";
 import PreloadScene from "./scene/PreloadScene";
 import MenuScene from "./scene/MenuScene";
+import ScoreScene from "./scene/ScoreScene";
 
 const WIDTH = 800;
 const HEIGHT = 600;
@@ -15,7 +16,8 @@ const SCENE_CONFIG = {
   gravity: 600
 }
 
-const Scenes = [ PreloadScene, MenuScene, GameScene ];
+const Scenes = [ PreloadScene, MenuScene, GameScene, ScoreScene ];
+
 const createScene = (Scene) => new Scene(SCENE_CONFIG);
 const initScenes = () => Scenes.map(createScene);
 

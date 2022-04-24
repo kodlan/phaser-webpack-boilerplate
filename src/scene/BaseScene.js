@@ -24,6 +24,10 @@ class BaseScene extends Phaser.Scene {
      */
     create() {
         this.add.image(0, 0, 'sky').setOrigin(0, 0);
+
+        if (this.config.canGoBack) {
+            this.createBack();
+        }
     }
 
     /**
@@ -41,6 +45,17 @@ class BaseScene extends Phaser.Scene {
             lastMenuPositionY += this.lineHeight;
             setupMenuEvents(menuItem);
         })
+    }
+
+    createBack() {
+        const backButton = this.add.image(this.config.width - 10, this.config.height - 10, "back")
+                .setInteractive()
+                .setScale(2)
+                .setOrigin(1, 1);
+
+        backButton.on("pointerdown", () => {
+            this.scene.start("MenuScene");
+        });
     }
 
 }
