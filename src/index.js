@@ -26,10 +26,11 @@ const config = {
   type: Phaser.AUTO,  
   width: WIDTH,
   height: HEIGHT,
+  pixelArt: true,
   physics: {
     default: 'arcade',
     arcade: {
-      debug: true,
+      //debug: true,
     }
   },
   scene: initScenes()
